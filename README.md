@@ -167,8 +167,4 @@ Risk Score = (
 | `POST` | `/api/alerts/<id>/status` | Update alert status (`New`, `Acknowledged`, `Resolved`) |
 | `GET` | `/api/reports` | Returns aggregated data for printable administrative reports |
 
----
 
-## 10. Educational Prototype Disclaimer
-
-**Notice:** This software system is developed strictly for college-level prototype demonstration and hackathon review. All data is simulated for illustrative purposes. Risk outputs, safe-zone suitability ratings, and relocation recommendations are decision-support outputs only. They must not be treated as official hazard assessments or used as a substitute for field verification and decisions by authorized disaster-management and engineering professionals.
