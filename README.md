@@ -12,6 +12,8 @@
 
 ## PROTOTYPE : https://drive.google.com/file/d/13G09CEGG2MlxUiVKd0lH1t7dUkoFSUNe/view?usp=drive_link
 
+---
+
 ## 1. Executive Summary
 
 **SafeZone** is an educational decision-support software prototype designed to assist disaster management authorities and NDRF planners in:
