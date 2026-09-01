@@ -10,7 +10,7 @@
 
 ## LIVE DEMO : https://safezone-disaster-management.onrender.com/
 
-## PROTOTYPE : https://drive.google.com/file/d/13G09CEGG2MlxUiVKd0lH1t7dUkoFSUNe/view?usp=drive_link
+## PROTOTYPE : https://drive.google.com/file/d/15yan4HAGm2zkkYtuk2kHy4XV58ZjU6hA/view?usp=drive_link
 
 ---
 
