@@ -1,0 +1,191 @@
+{% extends "layout.html" %}
+
+{% block title %}Hazard Assessment{% endblock %}
+{% block page_title %}Hazard Exposure & Assessment Engine{% endblock %}
+
+{% block content %}
+<div class="hazards-page">
+
+    <div class="grid-2col">
+        <!-- Interactive Hazard Assessment Form Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>
+                    <span>Multi-Factor Hazard Assessment Form</span>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <form id="hazardForm">
+                    <div class="form-group">
+                        <label for="selectHabitation">Select Vulnerable Settlement</label>
+                        <select id="selectHabitation" class="form-control" required>
+                            <option value="">-- Choose Habitation --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="hazardType">Primary Hazard Type</label>
+                            <select id="hazardType" class="form-control" required>
+                                <option value="Landslide">Landslide</option>
+                                <option value="Flood">Flood</option>
+                                <option value="Cloudburst">Cloudburst</option>
+                                <option value="Coastal Erosion">Coastal Erosion</option>
+                                <option value="Extreme Rainfall">Extreme Rainfall</option>
+                                <option value="Multi-Hazard">Multi-Hazard</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="hazardSeverity">Hazard Severity Level</label>
+                            <select id="hazardSeverity" class="form-control" required>
+                                <option value="Low">Low Severity</option>
+                                <option value="Moderate" selected>Moderate Severity</option>
+                                <option value="High">High Severity</option>
+                                <option value="Critical">Critical Severity</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label-row">
+                            <label for="hazardExposureSlider">Hazard Exposure Index (0–100)</label>
+                            <span class="slider-val" id="valHazardExp">75</span>
+                        </div>
+                        <input type="range" id="hazardExposureSlider" min="0" max="100" value="75" class="form-slider">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label-row">
+                            <label for="rainfallSlider">Rainfall & Precipitation Exposure (mm normalized 0–100)</label>
+                            <span class="slider-val" id="valRainfall">80</span>
+                        </div>
+                        <input type="range" id="rainfallSlider" min="0" max="100" value="80" class="form-slider">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label-row">
+                            <label for="slopeSlider">Terrain Slope (0° to 60°)</label>
+                            <span class="slider-val" id="valSlope">35°</span>
+                        </div>
+                        <input type="range" id="slopeSlider" min="0" max="60" value="35" class="form-slider">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label-row">
+                            <label for="historicalFreqSlider">Historical Hazard Frequency (0–100)</label>
+                            <span class="slider-val" id="valHistFreq">70</span>
+                        </div>
+                        <input type="range" id="historicalFreqSlider" min="0" max="100" value="70" class="form-slider">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label-row">
+                            <label for="vulnerablePopSlider">Vulnerable Population Share (% elderly / children / ill)</label>
+                            <span class="slider-val" id="valVulnPop">40%</span>
+                        </div>
+                        <input type="range" id="vulnerablePopSlider" min="0" max="100" value="40" class="form-slider">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="roadAccessInput">Road Accessibility Score (0-100)</label>
+                            <input type="number" id="roadAccessInput" class="form-control" min="0" max="100" value="30">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="emergencyDistInput">Distance to Emergency Services (km)</label>
+                            <input type="number" id="emergencyDistInput" class="form-control" min="0" max="100" value="15" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="form-actions mt-3">
+                        <button type="button" class="btn btn-primary btn-block" id="calcRiskBtn">Calculate Real-Time Risk Score</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Risk Calculation Output Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    <span>Multi-Factor Risk Assessment Output</span>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="risk-score-display text-center">
+                    <div class="score-circle-wrapper">
+                        <div class="score-number" id="outputRiskScore">74.5</div>
+                        <div class="score-max">/ 100</div>
+                    </div>
+                    <div class="mt-2">
+                        <span class="badge badge-lg badge-danger" id="outputRiskCategory">CRITICAL RISK</span>
+                    </div>
+                    <div class="score-priority-lbl mt-1">Priority Level: <strong id="outputPriority">EMERGENCY</strong></div>
+                </div>
+
+                <div class="factor-breakdown-box mt-4">
+                    <h4>Mathematical Factor Contribution Breakdown</h4>
+                    
+                    <div class="factor-progress-item">
+                        <div class="factor-label">
+                            <span>Hazard & Rainfall Exposure (40%)</span>
+                            <span id="factExpScore">77.5</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill red" id="barExp" style="width: 77.5%;"></div></div>
+                    </div>
+
+                    <div class="factor-progress-item">
+                        <div class="factor-label">
+                            <span>Terrain Slope & Elevation (12%)</span>
+                            <span id="factSlopeScore">58.3</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill orange" id="barSlope" style="width: 58.3%;"></div></div>
+                    </div>
+
+                    <div class="factor-progress-item">
+                        <div class="factor-label">
+                            <span>Population Vulnerability (15%)</span>
+                            <span id="factVulnScore">40.0</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill yellow" id="barVuln" style="width: 40.0%;"></div></div>
+                    </div>
+
+                    <div class="factor-progress-item">
+                        <div class="factor-label">
+                            <span>Historical Hazard Occurrence (12%)</span>
+                            <span id="factHistScore">70.0</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill orange" id="barHist" style="width: 70.0%;"></div></div>
+                    </div>
+
+                    <div class="factor-progress-item">
+                        <div class="factor-label">
+                            <span>Accessibility & Isolation Risk (21%)</span>
+                            <span id="factAccessScore">70.0</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill red" id="barAccess" style="width: 70.0%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="card-notice-box mt-3">
+                    <strong>Formula Concept:</strong> Risk Score = 0.25*(Hazard) + 0.15*(Precipitation) + 0.12*(Slope) + 0.15*(Vulnerability) + 0.12*(History) + 0.10*(Isolation) + 0.06*(Hospital Distance) + 0.05*(Infra Failure).
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initHazardsView();
+    });
+</script>
+{% endblock %}

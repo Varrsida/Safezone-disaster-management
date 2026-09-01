@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}Safe Zones & Carrying Capacity{% endblock %}
+{% block page_title %}Safe Zones & Carrying Capacity Assessment{% endblock %}
+
+{% block content %}
+<div class="safe-zones-page">
+
+    <!-- Top Summary Banner -->
+    <div class="card card-notice-bar mb-4">
+        <div class="notice-flex">
+            <div class="notice-text">
+                <span class="badge badge-success">SAFE RECIPIENT SITES</span>
+                <span>Evaluation of carrying capacity, remaining seats, accessibility, and utility services across candidate relocation grounds.</span>
+            </div>
+            <span class="demo-tag">REAL-TIME CAPACITY TRACKER</span>
+        </div>
+    </div>
+
+    <!-- Summary Stats Bar -->
+    <div class="stats-grid mb-4">
+        <div class="stat-card">
+            <div class="stat-icon icon-green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="szTotalSites">8</div>
+                <div class="stat-label">Identified Safe Sites</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="szTotalCap">11,450</div>
+                <div class="stat-label">Total Designed Capacity</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="szCurrentOcc">4,930</div>
+                <div class="stat-label">Current Occupancy</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="szAvailableCap">6,520</div>
+                <div class="stat-label">Available Capacity Margin</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Safe Zones Grid Directory -->
+    <div class="safe-zones-grid" id="safeZonesGridContainer">
+        <div class="text-center py-4 text-muted col-12">Loading safe location capacity records...</div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initSafeZonesView();
+    });
+</script>
+{% endblock %}

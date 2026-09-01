@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block title %}About System{% endblock %}
+{% block page_title %}System Architecture & Documentation{% endblock %}
+
+{% block content %}
+<div class="about-page">
+
+    <!-- Top Hero Card -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="about-hero-content">
+                <span class="badge badge-primary">SIH 2026 Problem Statement ID: SIH26191</span>
+                <h2>SafeZone: Hazard Assessment & Relocation Planning System</h2>
+                <p class="lead-text">
+                    An educational decision-support prototype developed for the National Disaster Response Force (NDRF) / Ministry of Home Affairs challenge to assist authorities in identifying vulnerable habitations, scoring multi-hazard risk, evaluating safer recipient grounds, auditing carrying capacity, and prioritizing immediate relocation needs.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2 Column Grid for System Modules & Methodology -->
+    <div class="grid-2col mb-4">
+        
+        <!-- Problem & Objectives -->
+        <div class="card">
+            <div class="card-header">
+                <h3>1. Problem Definition & Objectives</h3>
+            </div>
+            <div class="card-body">
+                <p>Settlements located in floodplains, landslide-prone hillsides, cloudburst catchments, and coastal erosion zones face severe recurrent risks to life and infrastructure. Traditional response often lacks integrated decision tools to rapidly evaluate where residents can be safely moved based on real-time carrying capacity.</p>
+                
+                <h4 class="mt-3">Core System Objectives:</h4>
+                <ul class="styled-list">
+                    <li>Identify and index settlements exposed to single or multi-hazards.</li>
+                    <li>Calculate transparent, multi-factor risk scores (0–100) and classify risk categories (Low, Moderate, High, Critical).</li>
+                    <li>Audit candidate safe zones for available land area, carrying capacity, utility connections (water/power), and distance.</li>
+                    <li>Rank recipient sites and generate actionable relocation plans for emergency decision-makers.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Mathematical & ML Methodology -->
+        <div class="card">
+            <div class="card-header">
+                <h3>2. Risk Scoring & Machine Learning Methodology</h3>
+            </div>
+            <div class="card-body">
+                <h4>A. Mathematical Composite Risk Score</h4>
+                <p>The risk score (0–100) is calculated using a transparent weighted linear model:</p>
+                <div class="formula-box">
+                    <code>Risk Score = 0.25*(Hazard Exp) + 0.15*(Precipitation) + 0.12*(Slope) + 0.15*(Vuln Pop %) + 0.12*(Hist Freq) + 0.10*(Road Isolation) + 0.06*(Emergency Dist) + 0.05*(Infra Risk)</code>
+                </div>
+
+                <h4 class="mt-3">B. Scikit-learn Machine Learning Model</h4>
+                <div class="ml-spec-grid">
+                    <div class="spec-item">
+                        <span>Algorithm:</span>
+                        <strong>RandomForestClassifier</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>Training Set:</span>
+                        <strong>5,000 Synthetic Hazard Records</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>Feature Count:</span>
+                        <strong>10 Risk Parameters</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>Test Accuracy:</span>
+                        <strong class="text-green">{{ metadata.accuracy_percentage if metadata else '84.90%' }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Carrying Capacity & Relocation Matching -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>3. Carrying Capacity & Relocation Matching Engine</h3>
+        </div>
+        <div class="card-body">
+            <p>Carrying capacity for safe zones is dynamically tracked in SQLite using:</p>
+            <div class="formula-box mb-3">
+                <code>Remaining Capacity = Designed Capacity - Current Occupancy</code><br>
+                <code>Utilization Percentage = (Current Occupancy / Designed Capacity) * 100</code>
+            </div>
+            <p>The site matching algorithm filters candidate locations whose remaining capacity is greater than or equal to the habitation population requiring relocation, and ranks remaining sites using Haversine distance calculations and suitability scores.</p>
+        </div>
+    </div>
+
+    <!-- Limitations & Future Roadmap -->
+    <div class="grid-2col mb-4">
+        
+        <!-- System Limitations -->
+        <div class="card border-left-amber">
+            <div class="card-header">
+                <h3>4. System Limitations</h3>
+            </div>
+            <div class="card-body">
+                <ul class="styled-list warning-bullets">
+                    <li><strong>Simulated Data:</strong> All habitations, safe zones, and hazard records are synthetically generated for prototype demonstration.</li>
+                    <li><strong>Synthetic ML Training:</strong> Machine learning model is trained on synthetic data distributions and does not reflect official geological surveys.</li>
+                    <li><strong>Field Verification Required:</strong> Output recommendations are decision-support aids and require physical field audit by certified engineers prior to executing real-world evacuations.</li>
+                    <li><strong>Not Certified:</strong> Prototype is not certified for operational emergency use.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Future Enhancements -->
+        <div class="card border-left-blue">
+            <div class="card-header">
+                <h3>5. Future Enhancements & Integration Roadmap</h3>
+            </div>
+            <div class="card-body">
+                <ul class="styled-list blue-bullets">
+                    <li>Integration with official Bhuvan / ISRO / Survey of India GIS layers.</li>
+                    <li>Real-time satellite precipitation feeds (IMD API) and river gauge telemetry.</li>
+                    <li>Drone-based high-resolution elevation and landslide slope modeling.</li>
+                    <li>Evacuation route optimization using OpenStreetMap road network graphs.</li>
+                    <li>Mobile application with offline field survey sync capabilities.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Educational Disclaimer Footer -->
+    <div class="card card-notice-bar text-center p-4">
+        <h4>Educational Prototype Notice</h4>
+        <p class="mb-0">
+            This system is developed for academic and demonstration purposes using simulated data. Risk classifications, safe-location assessments, and relocation recommendations are decision-support outputs only. They must not be treated as official hazard assessments or used as a substitute for field verification and decisions by authorized disaster-management and engineering professionals.
+        </p>
+    </div>
+
+</div>
+{% endblock %}

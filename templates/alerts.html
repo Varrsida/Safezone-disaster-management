@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}Alert Monitor{% endblock %}
+{% block page_title %}Real-Time Alert Monitor & Critical Notifications{% endblock %}
+
+{% block content %}
+<div class="alerts-page">
+
+    <!-- Filters Bar -->
+    <div class="card filter-card mb-4">
+        <div class="filter-controls-row">
+            <div class="filter-group">
+                <label for="alertSeverityFilter">Severity Level</label>
+                <select id="alertSeverityFilter" class="form-control">
+                    <option value="ALL">All Severities</option>
+                    <option value="Critical">Critical</option>
+                    <option value="Warning">Warning</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="alertStatusFilter">Alert Status</label>
+                <select id="alertStatusFilter" class="form-control">
+                    <option value="ALL">All Statuses</option>
+                    <option value="New">New</option>
+                    <option value="Acknowledged">Acknowledged</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+            </div>
+
+            <div class="filter-group align-self-end">
+                <button type="button" class="btn btn-secondary" id="resetAlertFiltersBtn">Refresh Alerts</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Alerts Table -->
+    <div class="card">
+        <div class="card-header flex-between">
+            <div class="header-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path></svg>
+                <span>System Generated Hazard & Relocation Alerts</span>
+            </div>
+            <span class="badge badge-outline" id="alertTotalBadge">0 Alerts</span>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table" id="alertsTable">
+                    <thead>
+                        <tr>
+                            <th>Alert ID</th>
+                            <th>Habitation</th>
+                            <th>District</th>
+                            <th>Alert Type</th>
+                            <th>Severity</th>
+                            <th>Risk Score</th>
+                            <th>Timestamp</th>
+                            <th>Message / Cause</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alertsTableBody">
+                        <tr><td colspan="10" class="text-center py-4">Loading active alerts...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initAlertsView();
+    });
+</script>
+{% endblock %}

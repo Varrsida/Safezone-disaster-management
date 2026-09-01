@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block title %}Relocation Planning{% endblock %}
+{% block page_title %}Relocation Requirements & Safe Site Matching Engine{% endblock %}
+
+{% block content %}
+<div class="relocation-page">
+
+    <!-- Safety Limitation Banner -->
+    <div class="card card-notice-bar mb-4 border-left-amber">
+        <div class="notice-flex">
+            <div class="notice-text">
+                <span class="badge badge-warning">ADMINISTRATIVE DECISION SUPPORT ONLY</span>
+                <span>AI-assisted recommendation for administrative planning. Final relocation decisions must be made by authorized disaster-management officials based on field verification and professional assessment.</span>
+            </div>
+            <span class="demo-tag">SIH26191 PROTOCOL</span>
+        </div>
+    </div>
+
+    <!-- Settlement Selector Card -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="header-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path></svg>
+                <span>Select Vulnerable Settlement to Plan Relocation</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="form-row align-items-end">
+                <div class="form-group col-8 mb-0">
+                    <label for="relocHabSelect">Target Vulnerable Habitation</label>
+                    <select id="relocHabSelect" class="form-control">
+                        <option value="">-- Select Habitation --</option>
+                    </select>
+                </div>
+                <div class="form-group col-4 mb-0">
+                    <button type="button" class="btn btn-primary btn-block" id="runRelocMatchBtn">Run Capacity Matching Engine</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Relocation Results Section -->
+    <div id="relocResultsContainer" style="display: none;">
+        
+        <!-- Habitation Risk & Population Summary Card -->
+        <div class="card mb-4">
+            <div class="card-header flex-between">
+                <h3 id="relocHabName">Habitation Name</h3>
+                <span class="badge badge-lg badge-danger" id="relocPriorityBadge">EMERGENCY PRIORITY</span>
+            </div>
+            <div class="card-body">
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <span class="lbl">Total Population</span>
+                        <span class="val" id="relocPopVal">420</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="lbl">Vulnerable Population</span>
+                        <span class="val text-danger" id="relocVulnPopVal">160</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="lbl">Assessed Risk Score</span>
+                        <span class="val text-danger" id="relocRiskVal">78 / 100</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="lbl">Primary Hazard</span>
+                        <span class="val text-orange" id="relocHazardVal">Landslide</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="lbl">District & State</span>
+                        <span class="val" id="relocLocVal">Mandi, Himachal Pradesh</span>
+                    </div>
+                </div>
+
+                <div class="recommendation-action-box mt-3">
+                    <h4>Recommended Action</h4>
+                    <p id="relocActionText">Prioritize detailed relocation planning to Safe Haven Alpha...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ranked Candidate Safe Zones Table -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span>Evaluated Safe Locations & Carrying Capacity Alignment</span>
+                </div>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table" id="relocCandidatesTable">
+                        <thead>
+                            <tr>
+                                <th>Match Rank</th>
+                                <th>Safe Site Name</th>
+                                <th>Location & District</th>
+                                <th>Distance</th>
+                                <th>Suitability</th>
+                                <th>Available Capacity Margin</th>
+                                <th>Capacity Status</th>
+                                <th>Road & Utilities</th>
+                                <th>Recommendation Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="relocCandidatesTbody">
+                            <tr><td colspan="9" class="text-center py-4">Click "Run Capacity Matching Engine" to match sites...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initRelocationView();
+    });
+</script>
+{% endblock %}

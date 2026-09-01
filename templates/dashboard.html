@@ -1,0 +1,186 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard Overview{% endblock %}
+{% block page_title %}Disaster Risk Overview{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+    
+
+
+    <!-- Summary Statistics Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon icon-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="statTotalHabs">--</div>
+                <div class="stat-label">Total Habitations</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="statHighRisk">--</div>
+                <div class="stat-label">High-Risk Habitations</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="statRedZone">--</div>
+                <div class="stat-label">Red-Zone Habitations</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="statRelocReq">--</div>
+                <div class="stat-label">Relocation Required</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="statSafeCap">--</div>
+                <div class="stat-label">Available Safe Capacity</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon icon-cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            </div>
+            <div class="stat-data">
+                <div class="stat-value" id="statAvgRisk">--</div>
+                <div class="stat-label">Average Risk Score</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Map Section -->
+    <div class="card map-card">
+        <div class="card-header">
+            <div class="header-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 15 22 22 18 22 2 15 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="15" y1="6" x2="15" y2="22"></line></svg>
+                <span>Interactive Habitation & Safe Zone Risk Map</span>
+            </div>
+            <div class="map-legend-pills">
+                <span class="legend-pill red">Critical (70-100)</span>
+                <span class="legend-pill orange">High (50-69)</span>
+                <span class="legend-pill yellow">Moderate (30-49)</span>
+                <span class="legend-pill green">Low (0-29)</span>
+                <span class="legend-pill blue">Safe Zone</span>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div id="dashboardMap" class="leaflet-container-custom"></div>
+        </div>
+        <div class="card-footer map-footer-text">
+            <span>Map data displayed is simulated for prototype demonstration. Interactive markers provide instant risk summaries.</span>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+        <div class="card chart-card">
+            <div class="card-header">
+                <h3>Risk Level Distribution</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="riskDistChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card chart-card">
+            <div class="card-header">
+                <h3>Primary Hazard Distribution</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="hazardDistChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card chart-card">
+            <div class="card-header">
+                <h3>Relocation Status Overview</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="relocStatusChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tables Row: High Priority Habitations & Critical Alerts -->
+    <div class="dashboard-tables-row">
+        <!-- Vulnerable Habitations Table -->
+        <div class="card grid-card-2">
+            <div class="card-header">
+                <div class="header-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+                    <span>Vulnerable Habitations Needing Attention</span>
+                </div>
+                <a href="{{ url_for('habitations') }}" class="btn btn-outline btn-xs">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table" id="recentHabsTable">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Habitation</th>
+                                <th>District</th>
+                                <th>Primary Hazard</th>
+                                <th>Risk Score</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="7" class="text-center">Loading habitations data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Alerts Panel -->
+        <div class="card grid-card-1">
+            <div class="card-header">
+                <div class="header-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path></svg>
+                    <span>Recent Active Alerts</span>
+                </div>
+                <a href="{{ url_for('alerts') }}" class="btn btn-outline btn-xs">Alert Center</a>
+            </div>
+            <div class="card-body">
+                <div class="alerts-stream-list" id="dashboardAlertsList">
+                    <div class="text-center text-muted py-3">Loading active alerts...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initDashboardView();
+    });
+</script>
+{% endblock %}

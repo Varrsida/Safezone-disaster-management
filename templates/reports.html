@@ -1,0 +1,160 @@
+{% extends "layout.html" %}
+
+{% block title %}System Reports{% endblock %}
+{% block page_title %}Administrative Assessment Reports{% endblock %}
+
+{% block content %}
+<div class="reports-page">
+
+    <!-- Report Action Bar (Hidden on Print) -->
+    <div class="card card-notice-bar mb-4 print-hide">
+        <div class="notice-flex">
+            <div class="notice-text">
+                <span class="badge badge-primary">REPORT GENERATOR</span>
+                <span>Generate printable administrative risk and relocation summary documents.</span>
+            </div>
+            <div class="action-buttons">
+                <button type="button" class="btn btn-outline" id="refreshReportBtn">Refresh Data</button>
+                <button type="button" class="btn btn-primary" onclick="window.print()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    <span>Print Administrative Report</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printable Report Document Container -->
+    <div class="report-document card" id="reportDocument">
+        
+        <!-- Report Header -->
+        <div class="report-header">
+            <div class="report-title-block">
+                <h2>SAFEZONE DISASTER DECISION SUPPORT SYSTEM</h2>
+                <h3>HAZARD RISK, CARRYING CAPACITY, AND RELOCATION ASSESSMENT REPORT</h3>
+                <div class="report-meta-line">
+                    <span>Generated On: <strong id="reportGenDate">September 01, 2026</strong></span>
+                    <span>|</span>
+                    <span>Document Ref: <strong>NDRF/DM/SZ-2026-EX-009</strong></span>
+                    <span>|</span>
+                    <span>Classification: <strong>ADMINISTRATIVE DEMO</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <hr class="report-divider">
+
+        <!-- 1. Executive Summary -->
+        <div class="report-section">
+            <h4 class="report-section-title">1. EXECUTIVE RISK & CAPACITY SUMMARY</h4>
+            <div class="report-summary-grid" id="reportSummaryGrid">
+                <div class="report-metric-box">
+                    <span class="lbl">Total Habitations Assessed</span>
+                    <span class="val" id="repTotalHabs">15</span>
+                </div>
+                <div class="report-metric-box">
+                    <span class="lbl">Red-Zone Habitations (Risk ≥ 70)</span>
+                    <span class="val text-danger" id="repCriticalHabs">5</span>
+                </div>
+                <div class="report-metric-box">
+                    <span class="lbl">High-Risk Habitations (Risk 50-69)</span>
+                    <span class="val text-orange" id="repHighHabs">5</span>
+                </div>
+                <div class="report-metric-box">
+                    <span class="lbl">Habitations Needing Relocation</span>
+                    <span class="val text-purple" id="repRelocReq">4</span>
+                </div>
+                <div class="report-metric-box">
+                    <span class="lbl">Total Designed Safe Capacity</span>
+                    <span class="val" id="repTotalCap">11,450</span>
+                </div>
+                <div class="report-metric-box">
+                    <span class="lbl">Available Safe Capacity Margin</span>
+                    <span class="val text-green" id="repAvailCap">6,520</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Vulnerable Settlements Table -->
+        <div class="report-section">
+            <h4 class="report-section-title">2. RED-ZONE & HIGH-RISK VULNERABLE HABITATIONS</h4>
+            <table class="report-table" id="reportRedZoneTable">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Habitation Name</th>
+                        <th>District / State</th>
+                        <th>Primary Hazard</th>
+                        <th>Population</th>
+                        <th>Vulnerable Pop</th>
+                        <th>Risk Score</th>
+                        <th>Risk Category</th>
+                        <th>Relocation Requirement</th>
+                    </tr>
+                </thead>
+                <tbody id="reportRedZoneTbody">
+                    <tr><td colspan="9" class="text-center">Loading report data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. Safe Zones Capacity Table -->
+        <div class="report-section">
+            <h4 class="report-section-title">3. SAFE ZONES & CARRYING CAPACITY AUDIT</h4>
+            <table class="report-table" id="reportSafeZoneTable">
+                <thead>
+                    <tr>
+                        <th>Site Code</th>
+                        <th>Safe Zone Name</th>
+                        <th>Location & District</th>
+                        <th>Designed Capacity</th>
+                        <th>Current Occupancy</th>
+                        <th>Available Margin</th>
+                        <th>Utilization %</th>
+                        <th>Suitability</th>
+                        <th>Utilities (Water/Power)</th>
+                    </tr>
+                </thead>
+                <tbody id="reportSafeZoneTbody">
+                    <tr><td colspan="9" class="text-center">Loading safe zones...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. Active Relocation Plans -->
+        <div class="report-section">
+            <h4 class="report-section-title">4. ACTIVE RELOCATION PLANS & ALIGNMENT</h4>
+            <table class="report-table" id="reportRelocTable">
+                <thead>
+                    <tr>
+                        <th>Habitation</th>
+                        <th>Assigned Safe Zone</th>
+                        <th>Relocation Population</th>
+                        <th>Distance (km)</th>
+                        <th>Suitability</th>
+                        <th>Priority</th>
+                        <th>Recommended Action</th>
+                    </tr>
+                </thead>
+                <tbody id="reportRelocTbody">
+                    <tr><td colspan="7" class="text-center">Loading relocation plans...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 5. Disclaimer Footer -->
+        <div class="report-footer-box">
+            <p><strong>Official Administrative Disclaimer:</strong> This document represents an academic decision-support output generated by the SafeZone prototype. Output data is based on synthetic/simulated parameters. Final relocation plans must be verified by field engineers and authorized disaster-management personnel prior to execution.</p>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initReportsView();
+    });
+</script>
+{% endblock %}

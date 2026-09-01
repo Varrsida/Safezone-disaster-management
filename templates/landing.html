@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeZone - Hazard Assessment and Relocation Planning System</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="landing-body">
+
+    <!-- Header Navigation -->
+    <header class="landing-header">
+        <div class="landing-nav-container">
+            <div class="brand-logo">
+                <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                <div class="brand-text">
+                    <span class="brand-name">SafeZone</span>
+                    <span class="brand-sub">SIH 2026 Problem Statement ID: SIH26191</span>
+                </div>
+            </div>
+            
+            <nav class="landing-nav">
+                <a href="#about" class="landing-link">About Problem</a>
+                <a href="#features" class="landing-link">Core System</a>
+                <a href="#workflow" class="landing-link">Workflow</a>
+                <a href="#technology" class="landing-link">Tech Stack</a>
+                <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Administrative Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-tag">
+                    <span class="pulse-dot"></span>
+                    <span>Ministry of Home Affairs / NDRF Challenge</span>
+                </div>
+                <h1 class="hero-title">SafeZone</h1>
+                <h2 class="hero-subtitle">Hazard Assessment and Relocation Planning System</h2>
+                <p class="hero-description">
+                    A decision-support prototype for identifying vulnerable habitations in hazard-prone areas, assessing risk via multi-factor scoring and machine learning, evaluating safer locations, assessing carrying capacity, and prioritizing immediate relocation needs.
+                </p>
+                <div class="hero-actions">
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">Explore System</a>
+                    <a href="#workflow" class="btn btn-outline btn-lg">System Workflow</a>
+                </div>
+
+            </div>
+
+            <div class="hero-visual">
+                <div class="visual-card">
+                    <div class="visual-card-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="visual-title">Hazard Terrain & Relocation Visualizer</span>
+                    </div>
+                    <div class="visual-canvas-wrapper">
+                        <canvas id="landingCanvas" width="500" height="340"></canvas>
+                    </div>
+                    <div class="visual-metrics">
+                        <div class="metric-item">
+                            <span class="metric-val critical">70+</span>
+                            <span class="metric-lbl">Red-Zone Threshold</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-val">15</span>
+                            <span class="metric-lbl">Sample Settlements</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-val green">8</span>
+                            <span class="metric-lbl">Safe Zones Identified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section landing-about" id="about">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-subtitle">Problem Definition</span>
+                <h2 class="section-title">Addressing Vulnerable Settlement Risk & Relocation</h2>
+                <p class="section-desc">
+                    Communities living in flood-prone, landslide-prone, coastal, or cloudburst-prone regions face repeated risk to life and infrastructure. Identifying which habitations require urgent attention and determining where residents can be safely relocated requires integrating multi-hazard exposure, population vulnerability, and recipient site carrying capacity.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why This System Cards Section -->
+    <section class="section landing-features" id="features">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-subtitle">Core Capabilities</span>
+                <h2 class="section-title">Why SafeZone?</h2>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon icon-red">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    </div>
+                    <h3>Hazard Identification</h3>
+                    <p>Systematically identifies habitations exposed to landslides, floods, cloudbursts, and coastal erosion using multi-parameter hazard scoring.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-orange">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <h3>Vulnerability Assessment</h3>
+                    <p>Evaluates community vulnerability by incorporating elderly/children ratios, road accessibility, elevation, and emergency service distances.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </div>
+                    <h3>Safe Location Assessment</h3>
+                    <p>Evaluates candidate relocation grounds for low hazard exposure, infrastructure availability (water/power), and proximity to essential services.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                    </div>
+                    <h3>Relocation Prioritization</h3>
+                    <p>Computes carrying capacity vs. population demand to generate actionable, ranked relocation recommendations for emergency planners.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Workflow Section -->
+    <section class="section landing-workflow" id="workflow">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-subtitle">System Decision Pipeline</span>
+                <h2 class="section-title">How It Works</h2>
+            </div>
+
+            <div class="workflow-stepper">
+                <div class="workflow-step">
+                    <div class="step-num">01</div>
+                    <div class="step-content">
+                        <h4>Collect Data</h4>
+                        <p>Gather terrain, hazard, population, and road infrastructure factors.</p>
+                    </div>
+                </div>
+                <div class="workflow-arrow">&rarr;</div>
+
+                <div class="workflow-step">
+                    <div class="step-num">02</div>
+                    <div class="step-content">
+                        <h4>Assess Hazard</h4>
+                        <p>Evaluate rainfall exposure, slope degree, and hazard frequency.</p>
+                    </div>
+                </div>
+                <div class="workflow-arrow">&rarr;</div>
+
+                <div class="workflow-step">
+                    <div class="step-num">03</div>
+                    <div class="step-content">
+                        <h4>Calculate Risk</h4>
+                        <p>Compute 0–100 risk score and classify with Scikit-learn Random Forest.</p>
+                    </div>
+                </div>
+                <div class="workflow-arrow">&rarr;</div>
+
+                <div class="workflow-step">
+                    <div class="step-num">04</div>
+                    <div class="step-content">
+                        <h4>Red-Zone Classification</h4>
+                        <p>Flag high and critical vulnerability habitations for intervention.</p>
+                    </div>
+                </div>
+                <div class="workflow-arrow">&rarr;</div>
+
+                <div class="workflow-step">
+                    <div class="step-num">05</div>
+                    <div class="step-content">
+                        <h4>Evaluate Safe Locations</h4>
+                        <p>Assess candidate recipient sites for low hazard and service proximity.</p>
+                    </div>
+                </div>
+                <div class="workflow-arrow">&rarr;</div>
+
+                <div class="workflow-step">
+                    <div class="step-num">06</div>
+                    <div class="step-content">
+                        <h4>Check Carrying Capacity</h4>
+                        <p>Calculate remaining capacity seats and occupancy percentage.</p>
+                    </div>
+                </div>
+                <div class="workflow-arrow">&rarr;</div>
+
+                <div class="workflow-step">
+                    <div class="step-num">07</div>
+                    <div class="step-content">
+                        <h4>Prioritize Relocation</h4>
+                        <p>Match populations to safe sites and issue administrative recommendations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="section landing-tech" id="technology">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-subtitle">Technology Stack</span>
+                <h2 class="section-title">Built with Core Technologies</h2>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-name">HTML5 / CSS3 / Vanilla JS</div>
+                    <p>Clean, framework-free web interface featuring responsive grids, modal dialogs, and custom styling without Bootstrap or Tailwind.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Python & Flask</div>
+                    <p>Lightweight backend server managing request routing, session authentication, risk mathematical logic, and RESTful API endpoints.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Pandas & NumPy</div>
+                    <p>High-performance data manipulation for synthetic feature vector processing, distance matrix calculations, and risk index normalization.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Scikit-learn & Joblib</div>
+                    <p>RandomForestClassifier model trained on 5,000 synthetic hazard records to output risk classification probabilities with saved model persistence.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">SQLite Database</div>
+                    <p>Relational database storing habitations, hazards, safe zones, capacity status, relocation plans, and alert logs.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Leaflet.js & Chart.js</div>
+                    <p>Interactive client-side map rendering for risk-colored habitation markers and lightweight summary visualization charts via CDN.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="landing-cta">
+        <div class="container text-center">
+            <h2>Ready to Explore the Prototype?</h2>
+            <p>Access the administrative dashboard to view risk maps, run AI predictions, check safe zone capacity, and generate relocation reports.</p>
+            <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">Launch Administrative Portal</a>
+        </div>
+    </section>
+
+    <!-- Landing Footer -->
+    <footer class="landing-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="brand-name">SafeZone</div>
+                    <p>Hazard Assessment and Relocation Planning System for Vulnerable Habitations.</p>
+                </div>
+                <div class="footer-links">
+                    <strong>Quick Links</strong>
+                    <a href="{{ url_for('login') }}">System Login</a>
+                    <a href="#about">Problem Statement</a>
+                    <a href="#workflow">Decision Pipeline</a>
+                </div>
+                <div class="footer-info">
+                    <strong>Hackathon Metadata</strong>
+                    <p>SIH 2026 Problem Statement ID: SIH26191</p>
+                    <p>Ministry of Home Affairs / NDRF</p>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <strong>Academic Prototype Disclaimer:</strong> SafeZone is developed strictly for college project demonstration and hackathon review. All data is simulated for illustrative purposes. Risk outputs do not constitute official emergency orders.
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

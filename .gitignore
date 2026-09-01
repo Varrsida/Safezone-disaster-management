@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+.venv/
+
+# Environment
+.env
+
+# SQLite
+database/*.db
+
+# Trained model
+model/*.pkl
+
+# Generated training dataset
+model/*.csv
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db

@@ -1,0 +1,179 @@
+{% extends "layout.html" %}
+
+{% block title %}AI Risk Analysis{% endblock %}
+{% block page_title %}Machine Learning Hazard Risk Classifier{% endblock %}
+
+{% block content %}
+<div class="risk-analysis-page">
+
+    <!-- Top ML Model Banner -->
+    <div class="card card-notice-bar mb-4">
+        <div class="notice-flex">
+            <div class="notice-text">
+                <span class="badge badge-primary">SCIKIT-LEARN MODEL</span>
+                <span>RandomForestClassifier trained on 5,000 synthetic multi-hazard records. Test Accuracy: <strong>{{ metadata.accuracy_percentage if metadata else '84.90%' }}</strong>.</span>
+            </div>
+            <span class="demo-tag">EMPIRICAL METRICS ACTIVE</span>
+        </div>
+    </div>
+
+    <div class="grid-2col">
+        <!-- Input Form Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    <span>Settlement Feature Parameters</span>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <form id="mlPredictForm">
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="mlHabSelect">Habitation Preset (Optional)</label>
+                            <select id="mlHabSelect" class="form-control">
+                                <option value="">-- Load Sample Settlement --</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="mlHazardExp">Hazard Exposure (0-100)</label>
+                            <input type="number" id="mlHazardExp" class="form-control" value="75" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="mlRainfall">Precipitation Index (0-100)</label>
+                            <input type="number" id="mlRainfall" class="form-control" value="82" min="0" max="100">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="mlSlope">Terrain Slope (°)</label>
+                            <input type="number" id="mlSlope" class="form-control" value="40" min="0" max="60">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="mlPopDensity">Population Density (0-100)</label>
+                            <input type="number" id="mlPopDensity" class="form-control" value="55" min="0" max="100">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="mlVulnPop">Vulnerable Pop Share (%)</label>
+                            <input type="number" id="mlVulnPop" class="form-control" value="42" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="mlHistFreq">Historical Frequency (0-100)</label>
+                            <input type="number" id="mlHistFreq" class="form-control" value="70" min="0" max="100">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="mlRoadAccess">Road Accessibility (0-100)</label>
+                            <input type="number" id="mlRoadAccess" class="form-control" value="25" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="mlEmergencyDist">Distance to Hospital (km)</label>
+                            <input type="number" id="mlEmergencyDist" class="form-control" value="16.5" step="0.1" min="0" max="100">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="mlInfraCond">Infra Condition (0-100)</label>
+                            <input type="number" id="mlInfraCond" class="form-control" value="35" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mlElevation">Elevation above Sea Level (m)</label>
+                        <input type="number" id="mlElevation" class="form-control" value="1450" min="0" max="5000">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block mt-3" id="runMlPredictBtn">
+                        Run Scikit-learn Risk Prediction
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ML Results & Model Explanation Card -->
+        <div class="card">
+            <div class="card-header">
+                <div class="header-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                    <span>Model Prediction & Feature Explanation</span>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="ml-result-box text-center p-3">
+                    <div class="result-badge-label">Predicted Risk Category</div>
+                    <div class="result-category-name text-danger" id="mlResCategory">HIGH</div>
+                    <div class="result-metrics-row mt-2">
+                        <span>Risk Score: <strong id="mlResScore">68.4 / 100</strong></span>
+                        <span class="mx-2">|</span>
+                        <span>Model Confidence: <strong id="mlResConf">87%</strong></span>
+                        <span class="mx-2">|</span>
+                        <span>Priority: <strong id="mlResPriority">HIGH</strong></span>
+                    </div>
+                </div>
+
+                <!-- AI Explainability Panel -->
+                <div class="explainability-box mt-4">
+                    <h4>Explainability & Key Risk Drivers</h4>
+                    <p class="explain-intro">The classification model identified the following primary risk contributors for this settlement vector:</p>
+                    
+                    <div class="explain-item">
+                        <div class="explain-title">1. High Hazard & Precipitation Exposure (31.8% Weight)</div>
+                        <p>High exposure ratings (75–82/100) directly elevate environmental threat levels for flooding/landslides.</p>
+                    </div>
+
+                    <div class="explain-item">
+                        <div class="explain-title">2. Historical Hazard Recurrence (11.1% Weight)</div>
+                        <p>Repeat historical occurrences (70/100) indicate underlying geological or hydrological susceptibility.</p>
+                    </div>
+
+                    <div class="explain-item">
+                        <div class="explain-title">3. Road Isolation & Infrastructure Deficit (13.8% Weight)</div>
+                        <p>Low road accessibility (25/100) and hospital distance (16.5 km) delay emergency evacuation response.</p>
+                    </div>
+                </div>
+
+                <!-- Feature Importances List -->
+                <div class="feature-importances-box mt-4">
+                    <h4>Model Feature Importance Weights</h4>
+                    <div class="importances-list">
+                        {% if metadata and metadata.feature_importances %}
+                            {% for feat, imp in metadata.feature_importances.items() %}
+                                <div class="factor-progress-item">
+                                    <div class="factor-label">
+                                        <span>{{ feat }}</span>
+                                        <span>{{ (imp * 100) | round(1) }}%</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill blue" style="width: {{ imp * 100 * 2.5 }}%;"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">Hazard Exposure: 31.8% | Rainfall Exposure: 13.3% | Historical Frequency: 11.1% | Vulnerable Population: 9.9% | Road Access: 8.8%</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initRiskAnalysisView();
+    });
+</script>
+{% endblock %}
