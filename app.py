@@ -846,7 +846,7 @@ with app.app_context():
     init_db()
 
 if __name__ == "__main__":
-    print("\nStarting SafeZone Disaster Management Application...")
-    print("Local Server Running at: http://127.0.0.1:5000")
-    print("Demo Admin Credentials: admin / admin123")
-    app.run(debug=True, port=5000)
+    import os
+
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
